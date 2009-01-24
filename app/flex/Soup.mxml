@@ -25,7 +25,7 @@
         Rx.couchDbDatabaseName = "sinatra";
 
         socketMonitor = new SocketMonitor("localhost", 4567);
-        socketMonitor.pollInterval = 5000; /* miliseconds */
+        socketMonitor.pollInterval = 2000; /* miliseconds */
         socketMonitor.addEventListener(StatusEvent.STATUS, onNetworkStatusChange);
         socketMonitor.start();
 
