@@ -1,0 +1,18 @@
+# class Project < CouchModel
+#   key_accessor :name, :notes, :completed
+# end
+# 
+# class Task < CouchModel
+#   key_accessor :name, :notes, :project_id
+# end
+
+project:
+  - name: string
+  - notes: text
+  - completed: boolean
+  - has_many: [tasks]
+  
+task:
+  - name: string
+  - notes: text
+  - belongs_to: [project]

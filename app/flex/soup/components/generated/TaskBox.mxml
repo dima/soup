@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" label="Task"
+  xmlns:rx="org.restfulx.components.rx.*">
+  <mx:Script><![CDATA[
+    import org.restfulx.Rx;
+    import org.restfulx.utils.RxUtils;
+    import soup.models.Task;
+    import soup.models.Project;
+
+    [Bindable]
+    private var _task:Task = new Task();
+
+    private function newTask():void {
+      _task = new Task();
+      tasksList.selectedIndex = -1;
+    }
+
+    private function saveTask():void {
+      if (_task.id) {
+        updateTask();
+      } else {
+        createTask();
+      }
+    }
+  
+    private function createTask():void {
+      var task:Task = new Task();
+      task.name = nameTextInput.text;
+      task.notes = notesTextArea.text;
+
+      task.project = Project(projectComboBox.selectedItem);
+      task.create({onSuccess: onTaskCreate});
+    }
+
+    private function updateTask():void {
+      _task.name = nameTextInput.text;
+      _task.notes = notesTextArea.text;
+
+      _task.project = Project(projectComboBox.selectedItem);
+      _task.update({onSuccess: onTaskUpdate});
+    }
+
+    private function destroyTask():void {
+      _task.destroy({onSuccess: onTaskDestroy});
+    }
+  
+    private function onTaskSelect():void {
+      _task = RxUtils.clone(tasksList.selectedItem) as Task;
+    }
+  
+    private function onTaskCreate(task:Task):void {
+      _task = new Task;
+    }
+  
+    private function onTaskUpdate(task:Task):void {
+      tasksList.selectedItem = task;
+      _task = RxUtils.clone(task) as Task;
+    }
+  
+    private function onTaskDestroy(task:Task):void {
+      onTaskCreate(task);
+    }
+
+    private function canDeleteTask(task:Task):Boolean {
+      return task != null && !RxUtils.isEmpty(task.id);
+    }
+  ]]></mx:Script>
+  <mx:Panel id="tasksPanel"
+    title="Tasks" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid" 
+    borderThickness="1" backgroundColor="#EEEEEE" width="25%" height="100%">
+    <mx:List id="tasksList"
+      width="100%" height="100%"
+      dataProvider="{Rx.models.index(Task)}"
+      change="onTaskSelect()"/>
+    <mx:ControlBar width="100%">
+      <mx:Button label="New Task" width="100%" height="30"
+        click="newTask()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+  <mx:Panel title="Edit Task" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid" 
+    borderThickness="1" backgroundColor="#EEEEEE" width="75%" height="100%">
+    <mx:Form width="100%" height="100%">
+      <mx:FormItem label="Name" width="100%">
+        <mx:TextInput id="nameTextInput" width="100%" text="{_task.name}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Notes" width="100%">
+        <mx:TextArea id="notesTextArea" width="100%" height="200" text="{_task.notes}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Project" width="100%">
+        <mx:ComboBox id="projectComboBox" width="200"
+          labelField="{Project.LABEL}"
+          dataProvider="{Rx.models.index(Project)}" prompt="Project ..."
+          selectedItem="{_task.project}" />
+      </mx:FormItem>
+    </mx:Form>
+    <mx:ControlBar width="100%">
+      <mx:Button label="Save Task" width="50%" height="30"
+        click="saveTask()"/>
+      <mx:Button label="Delete Task" width="50%" height="30"
+        enabled="{canDeleteTask(_task)}"
+        click="destroyTask()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+</mx:HBox>

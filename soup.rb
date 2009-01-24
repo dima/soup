@@ -37,15 +37,17 @@ end
 
 #curl -i -XPOST -d"{\"name\":\"Demo Project\"}" http://localhost:4567/projects.json
 post '/:model.json' do
-  record = "#{params[:model]}".singularize.camelize.constantize.new(JSON.parse(request.body.string))
+  name = params[:model].singularize
+  record = name.camelize.constantize.new(JSON.parse(request.body.string)[name])
   record.save
   record.to_json
 end
 
 #curl -i -XPUT -d"{\"name\":\"Random Project\"}" http://localhost:4567/projects/7fe3d9118192d1e51487f754d5eaed3a.json
 put '/:model/:id.json' do
-  record = "#{params[:model]}".singularize.camelize.constantize.get(params[:id])
-  record.update_attributes(JSON.parse(request.body.string))
+  name = params[:model].singularize
+  record = name.camelize.constantize.get(params[:id])
+  record.update_attributes(JSON.parse(request.body.string)[name])
   record.to_json
 end
 
