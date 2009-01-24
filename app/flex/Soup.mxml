@@ -6,10 +6,10 @@
   <mx:Script>
     <![CDATA[
       import air.net.SocketMonitor;
-      import org.restfulx.services.as3http.DirectCouchDBHTTPServiceProvider;
       import org.restfulx.Rx;
       import org.restfulx.services.air.AIRServiceProvider;
       import org.restfulx.services.as3http.AS3JSONHTTPServiceProvider;
+      import org.restfulx.services.as3http.DirectCouchDBHTTPServiceProvider;
       import soup.controllers.ApplicationController;
 
       [Bindable]
@@ -46,7 +46,9 @@
       private function getCurrentProviderName(id:int):String {
         switch (id) {
           case DirectCouchDBHTTPServiceProvider.ID:
-            return "CouchDB";
+            return "DirectCouchDB";
+          case AS3JSONHTTPServiceProvider.ID:
+            return "Sinatra-CouchDB";
           case AIRServiceProvider.ID:
             return "AIR";
           default :
