@@ -18,7 +18,7 @@ To try this app out do the following:
   
 This will start up your Sinatra server on http://localhost:4567
 
-Next, go to http://127.0.0.1:5984/_utils/ (this is your CouchDB admin URL) and create a database called "sinatra".
+Next, go to http://localhost:5984/_utils (this is your CouchDB admin URL) and create a database called "sinatra".
 
 Then start your Soup AIR client:
 
