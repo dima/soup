@@ -2,7 +2,7 @@
 
 == Description
 
-This little AIR apps is just a step above a basic rx-gen generated AIR application. It adds the ability to:
+This little AIR app is just a step above a basic rx-gen generated AIR application. It adds the ability to:
 
 * Go from online mode to offline mode and back. When you are in offline mode the application saves all the records to local AIR SQLite database.
 
