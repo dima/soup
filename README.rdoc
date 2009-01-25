@@ -1,0 +1,27 @@
+= Soup: Mixing CouchDB, Sinatra, AIR and RestfulX to create an offline/online ready AIR app with undo/redo capabilities.
+
+== Description
+
+This little AIR apps is just a step above a basic rx-gen generated AIR application. It adds the ability to:
+
+* Go from online mode to offline mode and back. When you are in offline mode the application saves all the records to local AIR SQLite database.
+
+* Synchronize records when you are back online. When you go back online the application switches to AS3JSONHTTPServiceProvider and you can optionally synchronize all the data you modified/created/deleted while offline using Rx.changes.push().
+
+* Undo/redo. You can perform undo/redo on all creates/updates and deletes in both online and offline mode.
+
+== Running
+
+To try this app out do the following:
+
+  ruby soup.rb
+  
+This will start up your Sinatra server on http://localhost:4567
+
+Next, go to http://127.0.0.1:5984/_utils/ (this is your CouchDB admin URL) and create a database called "sinatra".
+
+Then start your Soup AIR client:
+
+  rake air:run
+  
+Create some records, etc to try it out. To go into off-line mode simply stop the sinatra server. You can keep creating records after you go off-line. To go back online, start the server again. To synchronize push "Synchronize" button and check out your CouchDB server to make sure all the new stuff made it there.
