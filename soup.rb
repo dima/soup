@@ -46,8 +46,14 @@ end
 #curl -i -XPUT -d"{\"name\":\"Random Project\"}" http://localhost:4567/projects/7fe3d9118192d1e51487f754d5eaed3a.json
 put '/:model/:id.json' do
   name = params[:model].singularize
-  record = name.camelize.constantize.get(params[:id])
-  record.update_attributes(JSON.parse(request.body.string)[name])
+  begin
+    record = name.camelize.constantize.get(params[:id])
+    record.update_attributes(JSON.parse(request.body.string)[name])
+  rescue
+    record = name.camelize.constantize.new(JSON.parse(request.body.string)[name])
+    record["_id"] = params[:id]
+    record.save
+  end
   record.to_json
 end
 

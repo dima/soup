@@ -1,10 +1,6 @@
 package soup.controllers {
   import org.restfulx.Rx;
-  import org.restfulx.controllers.ChangeController;
   import org.restfulx.controllers.RxApplicationController;
-  import org.restfulx.services.ISyncingServiceProvider;
-  import org.restfulx.services.air.AIRServiceProvider;
-  import org.restfulx.services.as3http.DirectCouchDBHTTPServiceProvider;
   import org.restfulx.utils.RxUtils;
   
   import soup.commands.*;
@@ -32,8 +28,6 @@ package soup.controllers {
       if (!RxUtils.isEmpty(airDatabaseName)) Rx.airDatabaseName = airDatabaseName;
       controller = new ApplicationController(new SingletonEnforcer, extraServices,
         defaultServiceId);
-      Rx.changes = new ChangeController(ISyncingServiceProvider(Rx.services.getServiceProvider(AIRServiceProvider.ID)),
-        Rx.services.getServiceProvider(DirectCouchDBHTTPServiceProvider.ID));
     }
   }
 }
