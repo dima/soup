@@ -4,18 +4,22 @@ require "couchrest"
 require "activesupport"
 require "thin"
 
-class CouchModel < CouchRest::Model
+class CouchModel < CouchRest::ExtendedDocument
   self.use_database(CouchRest.database!("http://127.0.0.1:5984/sinatra"))
   
   timestamps!
 end
 
 class Project < CouchModel
-  key_accessor :name, :notes, :completed
+  property :name
+  property :notes
+  property :completed
 end
 
 class Task < CouchModel
-  key_accessor :name, :notes, :project_id
+  property :name
+  property :notes
+  property :project_id
 end
 
 mime :json, "application/json"
